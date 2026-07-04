@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+venv/
+.venv/
+env/
+
+# SQLite Database
+db.sqlite3
+
+# Environment Variables
+.env
+
+# Django
+*.log
+media/
+staticfiles/
+
+# IDE
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Python Packaging
+build/
+dist/
+*.egg-info/
+
+# Test & Coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Misc
+*.swp
+*.swo

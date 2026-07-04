@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+
+{% block title %}Student Expense Tracker{% endblock %}
+
+{% block content %}
+
+<section class="py-5">
+
+    <div class="row align-items-center">
+
+        <div class="col-lg-6">
+
+            <span class="badge bg-dark mb-3">
+                Personal Finance
+            </span>
+
+            <h1 class="display-5 fw-bold mb-3">
+
+                Track your daily expenses with clarity.
+
+            </h1>
+
+            <p class="lead text-muted mb-4">
+
+                Record expenses, organize them by category, monitor spending,
+                and maintain better financial habits through a simple and
+                efficient interface.
+
+            </p>
+
+            <div class="d-flex gap-3">
+
+                <a href="{% url 'register' %}"
+                   class="btn btn-dark btn-lg">
+
+                    Get Started
+
+                </a>
+
+                <a href="{% url 'login' %}"
+                   class="btn btn-outline-dark btn-lg">
+
+                    Sign In
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-6 mt-5 mt-lg-0">
+
+            <div class="card">
+
+                <div class="card-body p-4">
+
+                    <h5 class="mb-4">
+
+                        Monthly Summary
+
+                    </h5>
+
+                    <table class="table">
+
+                        <tbody>
+
+                            <tr>
+
+                                <td>Food</td>
+
+                                <td class="text-end">
+
+                                    ₹ 3,450
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>Travel</td>
+
+                                <td class="text-end">
+
+                                    ₹ 1,200
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>Books</td>
+
+                                <td class="text-end">
+
+                                    ₹ 950
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>Entertainment</td>
+
+                                <td class="text-end">
+
+                                    ₹ 1,750
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                    <hr>
+
+                    <div class="d-flex justify-content-between">
+
+                        <strong>Total</strong>
+
+                        <strong>₹ 7,350</strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="py-4">
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+
+            <div class="card h-100">
+
+                <div class="card-body p-4">
+
+                    <h5 class="mb-3">
+
+                        Expense Management
+
+                    </h5>
+
+                    <p class="text-muted mb-0">
+
+                        Create, update and delete expenses with categorized
+                        records.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card h-100">
+
+                <div class="card-body p-4">
+
+                    <h5 class="mb-3">
+
+                        Dashboard
+
+                    </h5>
+
+                    <p class="text-muted mb-0">
+
+                        View spending history and monitor your overall
+                        expenses from one place.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card h-100">
+
+                <div class="card-body p-4">
+
+                    <h5 class="mb-3">
+
+                        Secure Account
+
+                    </h5>
+
+                    <p class="text-muted mb-0">
+
+                        Each user accesses only their own expense records
+                        through authentication.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

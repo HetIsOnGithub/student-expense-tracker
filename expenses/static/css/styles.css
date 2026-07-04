@@ -1,0 +1,81 @@
+body {
+    background-color: #f8f9fa;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: #212529;
+}
+
+.navbar {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.table {
+    background: #fff;
+}
+
+.table thead {
+    background: #f1f3f5;
+}
+
+.btn {
+    border-radius: 8px;
+}
+
+.form-control,
+.form-select {
+    border-radius: 8px;
+}
+
+.form-control:focus,
+.form-select:focus {
+    box-shadow: none;
+    border-color: #212529;
+}
+
+.page-title {
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+.summary-card {
+    text-align: center;
+    padding: 25px;
+}
+
+.summary-card h2 {
+    font-size: 2rem;
+    margin: 0;
+}
+
+.summary-card p {
+    margin: 0;
+    color: #6c757d;
+}
+
+.empty-state {
+    padding: 60px 20px;
+    text-align: center;
+    color: #6c757d;
+}
+
+.table td,
+.table th {
+    vertical-align: middle;
+}
+
+.badge-category {
+    font-size: 0.85rem;
+    padding: 6px 10px;
+}
+
+footer {
+    margin-top: 60px;
+    color: #6c757d;
+    text-align: center;
+    font-size: 14px;
+}

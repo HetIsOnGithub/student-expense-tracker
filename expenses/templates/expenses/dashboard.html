@@ -1,0 +1,711 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">
+
+            Expense Dashboard
+
+        </h2>
+
+        <p class="text-muted mb-0">
+
+            Monitor and manage your expenses.
+
+        </p>
+
+    </div>
+
+    <div class="d-flex gap-2 mt-3 mt-lg-0">
+
+        <a
+            href="{% url 'export_csv' %}?search={{ search }}&category={{ selected_category }}&from_date={{ from_date }}&to_date={{ to_date }}"
+            class="btn btn-outline-dark">
+
+            Export CSV
+
+        </a>
+
+        <a
+            href="{% url 'add_expense' %}"
+            class="btn btn-dark">
+
+            Add Expense
+
+        </a>
+
+    </div>
+
+</div>
+
+
+
+<div class="row g-3 mb-4">
+
+    <div class="col-md-6 col-xl-3">
+
+        <div class="card h-100">
+
+            <div class="card-body">
+
+                <small class="text-uppercase text-muted">
+
+                    Total Spending
+
+                </small>
+
+                <h3 class="mt-2 mb-0">
+
+                    ₹ {{ total_expense }}
+
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-6 col-xl-3">
+
+        <div class="card h-100">
+
+            <div class="card-body">
+
+                <small class="text-uppercase text-muted">
+
+                    Total Expenses
+
+                </small>
+
+                <h3 class="mt-2 mb-0">
+
+                    {{ total_records }}
+
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-6 col-xl-3">
+
+        <div class="card h-100">
+
+            <div class="card-body">
+
+                <small class="text-uppercase text-muted">
+
+                    Average Expense
+
+                </small>
+
+                <h3 class="mt-2 mb-0">
+
+                    ₹ {{ average_expense }}
+
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-6 col-xl-3">
+
+        <div class="card h-100">
+
+            <div class="card-body">
+
+                <small class="text-uppercase text-muted">
+
+                    Categories
+
+                </small>
+
+                <h3 class="mt-2 mb-0">
+
+                    {{ category_count }}
+
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<div class="card mb-4">
+
+    <div class="card-body">
+
+        <form method="GET">
+
+<div class="row g-3 align-items-end">
+
+    <div class="col-lg-3">
+
+        <label class="form-label">
+            Search
+        </label>
+
+        <input
+            type="text"
+            class="form-control"
+            name="search"
+            value="{{ search }}"
+            placeholder="Search...">
+
+    </div>
+
+    <div class="col-lg-3">
+
+        <label class="form-label">
+            Category
+        </label>
+
+        <select
+            class="form-select"
+            name="category">
+
+            <option value="">
+                All Categories
+            </option>
+
+            {% for category in categories %}
+
+            <option
+                value="{{ category.id }}"
+                {% if selected_category == category.id|stringformat:"s" %}
+                    selected
+                {% endif %}>
+
+                {{ category.name }}
+
+            </option>
+
+            {% endfor %}
+
+        </select>
+
+    </div>
+
+    <div class="col-lg-2">
+
+        <label class="form-label">
+            From
+        </label>
+
+        <input
+            type="date"
+            class="form-control"
+            name="from_date"
+            value="{{ from_date }}">
+
+    </div>
+
+    <div class="col-lg-2">
+
+        <label class="form-label">
+            To
+        </label>
+
+        <input
+            type="date"
+            class="form-control"
+            name="to_date"
+            value="{{ to_date }}">
+
+    </div>
+
+    <div class="col-lg-1 d-grid">
+
+        <button
+            class="btn btn-dark">
+
+            Apply
+
+        </button>
+
+    </div>
+
+    <div class="col-lg-1 d-grid">
+
+        <a
+            href="{% url 'dashboard' %}"
+            class="btn btn-outline-secondary">
+
+            Reset
+
+        </a>
+
+    </div>
+
+</div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+<div class="row g-4 mb-4">
+
+    <div class="col-lg-8">
+
+        <div class="card">
+
+            <div class="card-header bg-white">
+
+                <strong>
+
+                    Monthly Expense Trend
+
+                </strong>
+
+            </div>
+
+            <div class="card-body">
+
+                <canvas
+                    id="expenseChart"
+                    height="110">
+
+                </canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-lg-4">
+
+        <div class="card">
+
+            <div class="card-header bg-white">
+
+                <strong>
+
+                    Category Distribution
+
+                </strong>
+
+            </div>
+
+            <div class="card-body">
+
+                <canvas
+                    id="categoryChart"
+                    height="250">
+
+                </canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<div class="row g-4">
+
+    <div class="col-lg-8">
+
+        <div class="card">
+
+            <div class="card-header bg-white">
+
+                <strong>
+
+                    Expense History
+
+                </strong>
+
+            </div>
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead class="table-light">
+
+                        <tr>
+
+                            <th class="ps-4">
+
+                                Title
+
+                            </th>
+
+                            <th>
+
+                                Category
+
+                            </th>
+
+                            <th>
+
+                                Amount
+
+                            </th>
+
+                            <th>
+
+                                Date
+
+                            </th>
+
+                            <th class="text-center">
+
+                                Actions
+
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for expense in expenses %}
+
+                        <tr>
+
+                            <td class="ps-4">
+
+                                <strong>
+
+                                    {{ expense.title }}
+
+                                </strong>
+
+                            </td>
+
+                            <td>
+
+                                <span class="badge bg-secondary">
+
+                                    {{ expense.category }}
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                ₹ {{ expense.amount }}
+
+                            </td>
+
+                            <td>
+
+                                {{ expense.expense_date }}
+
+                            </td>
+
+                            <td class="text-center">
+
+                                <a
+                                    href="{% url 'edit_expense' expense.id %}"
+                                    class="btn btn-sm btn-outline-dark">
+
+                                    Edit
+
+                                </a>
+
+                                <a
+                                    href="{% url 'delete_expense' expense.id %}"
+                                    class="btn btn-sm btn-outline-danger">
+
+                                    Delete
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                    {% empty %}
+
+                        <tr>
+
+                            <td
+                                colspan="5"
+                                class="text-center py-5">
+
+                                No expenses found.
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+                    </div>
+
+    </div>
+
+
+    <div class="col-lg-4">
+
+        <div class="card">
+
+            <div class="card-header bg-white">
+
+                <strong>
+
+                    Recent Expenses
+
+                </strong>
+
+            </div>
+
+            <div class="list-group list-group-flush">
+
+                {% for expense in recent_expenses %}
+
+                <div class="list-group-item">
+
+                    <div class="fw-semibold">
+
+                        {{ expense.title }}
+
+                    </div>
+
+                    <small class="text-muted">
+
+                        {{ expense.expense_date }}
+
+                    </small>
+
+                    <div class="fw-bold mt-2">
+
+                        ₹ {{ expense.amount }}
+
+                    </div>
+
+                </div>
+
+                {% empty %}
+
+                <div class="list-group-item text-muted">
+
+                    No recent expenses.
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+{% if page_obj.has_other_pages %}
+
+<nav class="mt-4">
+
+    <ul class="pagination justify-content-center">
+
+        {% if page_obj.has_previous %}
+
+        <li class="page-item">
+
+            <a
+                class="page-link"
+href="?page={{ page_obj.previous_page_number }}&search={{ search }}&category={{ selected_category }}&from_date={{ from_date }}&to_date={{ to_date }}"
+                Previous
+
+            </a>
+
+        </li>
+
+        {% endif %}
+
+
+
+        {% for num in page_obj.paginator.page_range %}
+
+            {% if page_obj.number == num %}
+
+            <li class="page-item active">
+
+                <span class="page-link">
+
+                    {{ num }}
+
+                </span>
+
+            </li>
+
+            {% else %}
+
+            <li class="page-item">
+
+                <a
+                    class="page-link"
+        href="?page={{ num }}&search={{ search }}&category={{ selected_category }}&from_date={{ from_date }}&to_date={{ to_date }}">
+
+                    {{ num }}
+
+                </a>
+
+            </li>
+
+            {% endif %}
+
+        {% endfor %}
+
+
+
+        {% if page_obj.has_next %}
+
+        <li class="page-item">
+
+            <a
+                class="page-link"
+href="?page={{ page_obj.next_page_number }}&search={{ search }}&category={{ selected_category }}&from_date={{ from_date }}&to_date={{ to_date }}"
+                Next
+
+            </a>
+
+        </li>
+
+        {% endif %}
+
+    </ul>
+
+</nav>
+
+{% endif %}
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const monthLabels = {{ chart_labels|safe }};
+const monthValues = {{ chart_values|safe }};
+
+new Chart(document.getElementById("expenseChart"),{
+
+    type:"bar",
+
+    data:{
+
+        labels:monthLabels,
+
+        datasets:[{
+
+            label:"Expenses",
+
+            data:monthValues,
+
+            borderWidth:1
+
+        }]
+
+    },
+
+    options:{
+
+        responsive:true,
+
+        plugins:{
+
+            legend:{
+
+                display:false
+
+            }
+
+        },
+
+        scales:{
+
+            y:{
+
+                beginAtZero:true
+
+            }
+
+        }
+
+    }
+
+});
+
+const pieLabels={{ pie_labels|safe }};
+const pieValues={{ pie_values|safe }};
+
+new Chart(document.getElementById("categoryChart"),{
+
+    type:"pie",
+
+    data:{
+
+        labels:pieLabels,
+
+        datasets:[{
+
+            data:pieValues
+
+        }]
+
+    },
+
+    options:{
+
+        responsive:true,
+
+        plugins:{
+
+            legend:{
+
+                position:"bottom"
+
+            }
+
+        }
+
+    }
+
+});
+
+</script>
+
+{% endblock %}

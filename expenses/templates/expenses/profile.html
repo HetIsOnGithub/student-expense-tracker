@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-lg-8">
+
+        <div class="card mb-4">
+
+            <div class="card-body p-4">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div>
+
+                        <h2 class="fw-bold mb-1">
+
+                            Profile
+
+                        </h2>
+
+                        <p class="text-muted mb-0">
+
+                            Account information and expense statistics.
+
+                        </p>
+
+                    </div>
+
+                    <a
+                        href="{% url 'password_change' %}"
+                        class="btn btn-outline-dark">
+
+                        Change Password
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-md-6">
+
+                <div class="card h-100">
+
+                    <div class="card-body">
+
+                        <h5 class="mb-4">
+
+                            Account Details
+
+                        </h5>
+
+                        <table class="table table-borderless mb-0">
+
+                            <tr>
+
+                                <th width="35%">Username</th>
+
+                                <td>{{ user.username }}</td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th>Email</th>
+
+                                <td>
+
+                                    {% if user.email %}
+
+                                        {{ user.email }}
+
+                                    {% else %}
+
+                                        -
+
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th>Joined</th>
+
+                                <td>
+
+                                    {{ user.date_joined|date:"d M Y" }}
+
+                                </td>
+
+                            </tr>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <div class="card h-100">
+
+                    <div class="card-body">
+
+                        <h5 class="mb-4">
+
+                            Expense Summary
+
+                        </h5>
+
+                        <table class="table table-borderless mb-0">
+
+                            <tr>
+
+                                <th width="50%">
+
+                                    Total Expenses
+
+                                </th>
+
+                                <td>
+
+                                    {{ total_expenses }}
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th>
+
+                                    Total Spending
+
+                                </th>
+
+                                <td>
+
+                                    ₹ {{ total_amount }}
+
+                                </td>
+
+                            </tr>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card mt-4">
+
+            <div class="card-body d-flex justify-content-between">
+
+                <a
+                    href="{% url 'dashboard' %}"
+                    class="btn btn-outline-dark">
+
+                    Dashboard
+
+                </a>
+
+                <a
+                    href="{% url 'add_expense' %}"
+                    class="btn btn-dark">
+
+                    Add Expense
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

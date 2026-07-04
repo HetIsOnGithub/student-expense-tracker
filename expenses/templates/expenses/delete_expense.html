@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Delete Expense{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-lg-6">
+
+        <div class="card">
+
+            <div class="card-body p-5 text-center">
+
+                <h2 class="mb-3">Delete Expense</h2>
+
+                <p class="text-muted mb-4">
+                    Are you sure you want to delete this expense?
+                </p>
+
+                <div class="alert alert-light border">
+
+                    <h5 class="mb-2">{{ expense.title }}</h5>
+
+                    <p class="mb-1">
+                        <strong>Category:</strong> {{ expense.category }}
+                    </p>
+
+                    <p class="mb-1">
+                        <strong>Amount:</strong> ₹ {{ expense.amount }}
+                    </p>
+
+                    <p class="mb-0">
+                        <strong>Date:</strong> {{ expense.expense_date }}
+                    </p>
+
+                </div>
+
+                <form method="POST" class="mt-4">
+
+                    {% csrf_token %}
+
+                    <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary">
+                        Cancel
+                    </a>
+
+                    <button type="submit" class="btn btn-danger">
+                        Delete Expense
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
